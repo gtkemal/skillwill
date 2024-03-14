@@ -1,0 +1,3 @@
+1) sudo nano /etc/systemd/system/my-nodejs-app.service
+2) create app.js
+3) chmod +x app.js
