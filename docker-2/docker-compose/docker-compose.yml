@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  web:
+    build: ./web
+    ports:
+      - "8000:5000"
+    environment:
+      FLASK_ENV: development
+      DATABASE_URL: postgres://postgres:postgres@db/postgres
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - ./web:/code
+    command: flask run --host=0.0.0.0
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379"
+
+  db:
+    image: postgres:alpine
+    environment:
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
