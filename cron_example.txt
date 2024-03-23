@@ -1,0 +1,9 @@
+Run a script every day at 5 AM:   0 5 * * * /path/to/your-script.sh
+Back up a directory every Sunday at 1:30 AM: 
+30 1 * * 7 tar -czf /path/to/backup/dir_$(date +\%Y\%m\%d).tar.gz /path/to/directory
+Run a Python script every 15 minutes: 
+*/15 * * * * /usr/bin/python3 /path/to/your-script.py
+Delete temporary files every hour: 
+0 * * * * rm -rf /path/to/temporary/files/*
+Send a "Hello World" email to your email address every first day of the month:
+0 0 1 * * echo "Hello World" | mail -s "Hello World on $(date +\%Y\%m\%d)" your.email@example.com
