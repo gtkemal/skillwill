@@ -1,4 +1,4 @@
-Flask
+flask
 flask_sqlalchemy
-psycopg2-binary
 redis
+psycopg2-binary
