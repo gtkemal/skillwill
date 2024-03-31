@@ -1,0 +1,15 @@
+[Unit]
+Description=My Node.js Shop App
+
+[Service]
+ExecStart=/usr/bin/node /home/ubuntu/skillwill/monitoring/shop-web-app/app.js
+
+Restart=always
+User=ubuntu
+Group=ubuntu
+Environment=PATH=/usr/bin:/usr/local/bin
+Environment=NODE_ENV=production
+WorkingDirectory=/home/ubuntu/skillwill/monitoring/shop-web-app
+
+[Install]
+WantedBy=multi-user.target

@@ -2,15 +2,20 @@ const express = require('express');
 const morgan = require('morgan');
 const fs = require('fs');
 const path = require('path');
+const promClient = require('prom-client');
 
 const app = express();
-const port = 3000;
+const port = 3030;
 
 // Create a write stream (in append mode) for logging
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' });
 
 // Setup the logger
 app.use(morgan('combined', { stream: accessLogStream }));
+
+// Prometheus metrics
+const register = new promClient.Registry();
+promClient.collectDefaultMetrics({ register });
 
 // Sample catalog of items
 const items = {
@@ -40,6 +45,18 @@ app.get('/buy/:itemId', (req, res) => {
         });
     } else {
         res.status(404).send('Item not found');
+    }
+});
+
+// Endpoint to expose Prometheus metrics
+app.get('/metrics', async (req, res) => {
+    try {
+        res.set('Content-Type', register.contentType);
+        const metrics = await register.metrics(); // Wait for the Promise to resolve
+        res.end(metrics); // Pass the resolved metrics data to res.end()
+    } catch (error) {
+        console.error('Error generating metrics:', error);
+        res.status(500).send('Internal Server Error');
     }
 });
 
